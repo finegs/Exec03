@@ -19,6 +19,8 @@
 #include <stdarg.h>
 #include <inttypes.h>
 
+#include "mhashmap.h"
+
 ssize_t getdelim(char **linep, size_t *n, int delim, FILE *fp){
     int ch;
     size_t i = 0;
@@ -160,6 +162,34 @@ void do6() {
 			aList[nMinIndex] = nTmp;
 		}
 	}
+
+	for(i=0;i<nCnt;i++) printf("%d\t", aList[i]);
+	putchar('\n');
+}
+
+void do7() {
+	int nCnt = 0, i = 0,j = 0, nMinIndex = 0, nTmp = 0;
+	char *word;
+
+	Hashmap map;
+
+	hashmap_open(map, 100);
+
+	printf("Enter Count : "); fflush(stdout);
+	scanf("%d", &nCnt);
+	word = (char *)malloc(sizeof(char)*1024);
+	for(i=0;i<nCnt;i++) {
+		scanf("%s", word);
+
+		hashmap_put(map, word, word+strlen(word), word, word+strlen(word));
+	}
+
+	iter it = {0,0};
+
+	for(;NULL != hashmap_iterate(&map, &it, &word); {
+
+	}
+
 
 	for(i=0;i<nCnt;i++) printf("%d\t", aList[i]);
 	putchar('\n');
