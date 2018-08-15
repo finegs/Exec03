@@ -171,8 +171,7 @@ void do7() {
 
 	int i, nCnt;
 
-	char *word;
-	void* key;
+	char* key, *value;
 
 	Hashmap map;
 
@@ -180,21 +179,39 @@ void do7() {
 
 	printf("Enter Count : "); fflush(stdout);
 	scanf("%d", &nCnt);
-	word = (char *)malloc(sizeof(char)*1024);
-
+	key = (char *)malloc(sizeof(char)*1024);
+	value = (char *)malloc(sizeof(char)*1024);
 	for(i=0;i<nCnt;i++) {
-		scanf("%s", word);
+		memset(key, '\0', sizeof(char)*1024);
+		memset(value, '\0', sizeof(char)*1024);
 
-		hashmap_put(&map, word, word+strlen(word), word, word+strlen(word));
+		scanf("%s %s", key, value);
+
+		hashmap_put(&map, key, key+strlen(key)+1, value, value+strlen(value)+1);
+//		hashmap_put(&map, word, NULL, word, NULL);
 	}
 
 	iter it = {0,0};
 
-	for(i = 0;NULL != (key = hashmap_iterate(&map, &it, &word));i++) {
-		printf("%3d : %s=%s\n", i, word, word);
+
+	for(i = 0;NULL != (key = hashmap_iterate(&map, &it, (void**)&value));i++) {
+		printf("%3d : %s = %s\n", i, key, (char*)hashmap_get(&map, key, key+strlen(key)+1));
+		memset(value, '\0', strlen(value));
+	}
+
+	hashmap_close(&map);
+
+	if(key) {
+		free(key);
+		key = NULL;
+	}
+	if(value) {
+		free(value);
+		value = NULL;
 	}
 
 	putchar('\n');
+
 }
 
 void mainTask() {
@@ -219,6 +236,9 @@ void mainTask() {
 		if(!strcmp("exit", line)) {
 			printf("exit is entered\n");
 			isRun = 0;
+		}
+		else if(!strcmp("cls", line)) {
+			system("cls");
 		}
 		else if(!strcmp("1", line)) {
 			do1();
