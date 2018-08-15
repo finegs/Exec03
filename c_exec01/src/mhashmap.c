@@ -189,6 +189,9 @@ void* hashmap_get_or_put(Hashmap *h,
 int hashmap_remove(Hashmap *h, void *key, void *key_end)
 {
 	assert(0);
+
+	// TODO hashmap_remove
+
 	return 0;
 }
 
