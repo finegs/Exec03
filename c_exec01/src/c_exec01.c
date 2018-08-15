@@ -168,30 +168,32 @@ void do6() {
 }
 
 void do7() {
-	int nCnt = 0, i = 0,j = 0, nMinIndex = 0, nTmp = 0;
+
+	int i, nCnt;
+
 	char *word;
+	void* key;
 
 	Hashmap map;
 
-	hashmap_open(map, 100);
+	hashmap_open(&map, 100);
 
 	printf("Enter Count : "); fflush(stdout);
 	scanf("%d", &nCnt);
 	word = (char *)malloc(sizeof(char)*1024);
+
 	for(i=0;i<nCnt;i++) {
 		scanf("%s", word);
 
-		hashmap_put(map, word, word+strlen(word), word, word+strlen(word));
+		hashmap_put(&map, word, word+strlen(word), word, word+strlen(word));
 	}
 
 	iter it = {0,0};
 
-	for(;NULL != hashmap_iterate(&map, &it, &word); {
-
+	for(i = 0;NULL != (key = hashmap_iterate(&map, &it, &word));i++) {
+		printf("%3d : %s=%s\n", i, word, word);
 	}
 
-
-	for(i=0;i<nCnt;i++) printf("%d\t", aList[i]);
 	putchar('\n');
 }
 
@@ -235,6 +237,9 @@ void mainTask() {
 		}
 		else if(!strcmp("6", line)) {
 			do6();
+		}
+		else if(!strcmp("7", line)) {
+			do7();
 		}
 		else {
 			continue;
