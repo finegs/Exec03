@@ -192,9 +192,8 @@ int hashmap_remove(Hashmap *h, void *key, void *key_end)
 	if(!h) return -1;
 
 	value = NULL;
+
 	if(NULL == (value = hashmap_get(h, key, key_end))) return -1;
-
-
 
 	assert(0);
 	// TODO hashmap_remove
