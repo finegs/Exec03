@@ -170,6 +170,9 @@ void do6() {
 void do7() {
 
 	int i, nCnt;
+	int BUF_LEN;
+
+	BUF_LEN = 1024;
 
 	char* key, *value;
 
@@ -179,13 +182,21 @@ void do7() {
 
 	printf("Enter Count : "); fflush(stdout);
 	scanf("%d", &nCnt);
-	key = (char *)malloc(sizeof(char)*1024);
-	value = (char *)malloc(sizeof(char)*1024);
+	key = (char *)malloc(sizeof(char)*BUF_LEN);
+	value = (char *)malloc(sizeof(char)*BUF_LEN);
 	for(i=0;i<nCnt;i++) {
-		memset(key, '\0', sizeof(char)*1024);
-		memset(value, '\0', sizeof(char)*1024);
+		memset(key, '\0', sizeof(char)*BUF_LEN);
+		memset(value, '\0', sizeof(char)*BUF_LEN);
 
-		scanf("%s %s", key, value);
+		printf("[%d] Key Value : ", i); fflush(stdout);
+
+		scanf("%s", key);
+
+		if(!strcmp("exit", key)) {
+			break;
+		}
+
+		scanf("%s", value);
 
 		hashmap_put(&map, key, key+strlen(key)+1, value, value+strlen(value)+1);
 //		hashmap_put(&map, word, NULL, word, NULL);
@@ -193,9 +204,11 @@ void do7() {
 
 	iter it = {0,0};
 
+	memset(key, '\0', sizeof(char)*BUF_LEN);
 
-	for(i = 0;NULL != (key = hashmap_iterate(&map, &it, (void**)&value));i++) {
-		printf("%3d : %s = %s\n", i, key, (char*)hashmap_get(&map, key, key+strlen(key)+1));
+	for(i = 0;(key = hashmap_iterate(&map, &it, (void**)&value));i++) {
+//		printf("%3d : %s = %s\n", i, key, (char*)hashmap_get(&map, key, key+strlen(key)+1));
+		printf("%3d : %s = %s\n", i, key, (char*)value);
 		memset(value, '\0', strlen(value));
 	}
 
@@ -259,6 +272,9 @@ void mainTask() {
 			do6();
 		}
 		else if(!strcmp("7", line)) {
+			do7();
+		}
+		else if(!strcmp("8", line)) {
 			do7();
 		}
 		else {
