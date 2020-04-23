@@ -11,15 +11,10 @@
 #include <string.h>
 
 /*
-
   Fairly fast implementation, except:
-
   --- remove not implemented
-
   --- get-or-put isn't optimize/joined yet
-
   And it's not thorougly tested yet.
-
  */
 
 #include <stdio.h>             /* for dump */
